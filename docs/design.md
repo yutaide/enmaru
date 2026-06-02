@@ -30,7 +30,7 @@ One directory per role under `src/`:
 | `services/`   | Client-side HTTP layer: typed wrappers around this app's own route handlers.                    | client only      |
 | `lib/`        | Clients/config for external managed services (Neon/Prisma, R2, Logto).                          | server only      |
 | `types/`      | Types shared between server and client code.                                                    | both             |
-| `utils/`      | Pure, domain-agnostic helper functions shared across roles.                                     | both             |
+| `utils/`      | Pure, domain-agnostic helper functions shared between server and client code.                   | both             |
 | `generated/`  | Generated code (Prisma client). Never edited by hand.                                           | server only      |
 
 ### `app/` — routing only
