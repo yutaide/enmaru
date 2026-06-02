@@ -1,8 +1,10 @@
 # enmaru
 
-Full-stack starter for LAplust web apps: **Next.js (App Router) + Prisma + Neon**, deployed
-on **Vercel**, with MUI, Cloudflare R2 storage, Logto Cloud auth, ESLint/Prettier, Vitest
-unit tests, and Playwright e2e tests.
+<!-- The overview below is intentionally in Japanese (exception to the English-docs policy): it describes the service for its Japanese-speaking stakeholders. -->
+
+**えんまーる**は、保育士資格を持ちながら現場を離れている「潜在保育士」と、人手不足に悩む保育園を、いきなり就職ではなく**段階的につなぐ**マッチングプラットフォームです。応募 → 業務 → 相互評価までを一つの流れとして設計することで、ミスマッチを防ぎ、双方が安心して関係を築ける仕組みを提供します。
+
+えんまーるは[合同会社KASUMIN](https://kasumin.biz/)が運営しており、現在は[Notion 上に構築されたページ](https://laplust.notion.site/2dec08e5f34c80dd90c9e62a74946408)として試験運用されています。このリポジトリは、現・えんまーるの Web アプリ化を実現するものです。
 
 ## Stack
 
@@ -24,29 +26,8 @@ unit tests, and Playwright e2e tests.
 There is no Docker: the app runs on the host locally (`pnpm dev`) and on Vercel's managed
 runtime in production. The database, storage, and auth are managed cloud services.
 
-## Directory layout
-
-```
-src/
-├── app/            # Next.js routing (pages + route handlers — keep thin)
-│   └── callback/   # Logto sign-in callback route handler
-├── components/     # FE components
-├── services/       # FE → own route handler HTTP layer (axios/fetch)
-├── server/         # BE domain logic; server actions (e.g. auth.ts)
-├── types/          # Types shared between FE and BE
-├── lib/            # Shared clients/config
-│   ├── prisma.ts   #   PrismaClient singleton (Neon adapter)
-│   ├── storage.ts  #   Cloudflare R2 (S3) client
-│   └── logto.ts    #   Logto config + getAuthContext()
-└── generated/      # Prisma client output (git-ignored, run `prisma generate`)
-prisma/schema.prisma  # datasource + generator (models go here)
-e2e/                  # Playwright e2e (see e2e/README.md)
-```
-
-`src/app/` is the only directory whose structure is dictated by Next.js. Everything else is
-convention. In the App Router, BE code (route handlers, server components, server actions)
-lives alongside FE code under `src/app/`; keep the routing layer thin and put logic in
-`server/` / `services/`.
+The directory layout and the rules for where new code lands are documented in
+[`docs/architecture.md`](docs/architecture.md) and [`docs/design.md`](docs/design.md).
 
 ## Prerequisites
 
@@ -118,11 +99,20 @@ the quality-gate CI.
 | `./cmd test e2e`        | Playwright e2e (host, via webServer)  |
 | `./cmd test e2e-report` | Open the last e2e HTML report         |
 
-## Tests
+## Where to look next
 
-- **Unit** (Vitest + jsdom): `*.test.ts(x)` under `src/`. Run `./cmd test unit`.
-- **E2E** (Playwright on the host): see [`e2e/README.md`](e2e/README.md). Run
-  `./cmd test e2e-setup` once, then `./cmd test e2e`.
+Find the right document by the question you have:
+
+- **How is the system put together?**
+  - [Architecture](docs/architecture.md) — system diagram, tiers, directory roles
+- **Where does this new code go?**
+  - [Design](docs/design.md) — roles, data-flow patterns, dependency direction
+- **What conventions does the project follow?**
+  - [Conventions](docs/conventions/index.md) — coding, repo, docs
+- **How is the project tested?**
+  - [Testing](docs/testing.md) — where each layer's tests live, how to run them
+- **How do I write or run e2e tests specifically?**
+  - [`e2e/README.md`](e2e/README.md) — Playwright structure, page objects, fixtures
 
 The shipped Vitest and Playwright tests are smoke tests proving the harnesses work; replace
 them as real features land.
