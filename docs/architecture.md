@@ -58,6 +58,7 @@ Key directories only — not exhaustive.
   - `services/` — client-side HTTP layer toward this app's own route handlers
   - `lib/` — external-service clients (Prisma/Neon, R2, Logto)
   - `types/` — types shared between server and client code
+  - `utils/` — pure, domain-agnostic helpers shared across roles
   - `generated/` — Prisma client output (git-ignored; `prisma generate`)
 - `prisma/` — Prisma schema and migrations
 - [`e2e/`](../e2e/README.md) — end-to-end tests (Playwright, standalone npm

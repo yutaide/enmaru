@@ -30,6 +30,7 @@ One directory per role under `src/`:
 | `services/`   | Client-side HTTP layer: typed wrappers around this app's own route handlers.                    | client only      |
 | `lib/`        | Clients/config for external managed services (Neon/Prisma, R2, Logto).                          | server only      |
 | `types/`      | Types shared between server and client code.                                                    | both             |
+| `utils/`      | Pure, domain-agnostic helper functions shared across roles.                                     | both             |
 | `generated/`  | Generated code (Prisma client). Never edited by hand.                                           | server only      |
 
 ### `app/` — routing only
@@ -86,6 +87,17 @@ the routing surface and nothing more:
   timestamp → `Date`) lives here as `encodeXxx` / `decodeXxx` helpers, colocated
   with the type they convert.
 
+### `utils/` — shared pure helpers
+
+- Pure, domain-agnostic functions usable from both tiers (date formatting,
+  string/array helpers, …). No I/O, no env access, no React.
+- One file per topic (`utils/date.ts`) — never a single grab-bag `utils.ts`.
+- Leaf module like `types/`: imports nothing from `src/`.
+- Placement test before adding a function here: if it knows a domain concept, it
+  belongs with that concept (`types/` for conversions, `server/` for behavior);
+  if it touches env vars or `lib/` clients, it is not tier-neutral and belongs
+  in `server/` or `lib/`.
+
 ## Data flow — pick the pattern
 
 | You need                                                                 | Use                                                                         | Lands in                                                  |
@@ -120,20 +132,20 @@ existing files; do not start a parallel home for it.
 ## Dependency direction
 
 ```
-app/ ──▶ components/ ──▶ services/ ──▶ types/
+app/ ──▶ components/ ──▶ services/ ──▶ types/, utils/
  │             │
  │             └─(Server Actions only)─┐
  ├──▶ server/ ◀────────────────────────┘
  │      ├──▶ lib/ ──▶ generated/
- │      └──▶ types/
+ │      └──▶ types/, utils/
  └──▶ lib/ (wiring-level glue only, e.g. auth callback)
 ```
 
 - Nothing imports from `app/` — routes are entry points, not a library.
 - `server/` never imports `services/`: server code calls `server/` functions
   directly, never its own HTTP API.
-- `types/` imports nothing; `lib/` imports only external packages and
-  `generated/`.
+- `types/` and `utils/` are leaves any role may import; they import nothing
+  from `src/`. `lib/` imports only external packages and `generated/`.
 
 A reverse arrow is a smell: it usually means domain logic has leaked into the
 wrong role.
@@ -149,5 +161,6 @@ wrong role.
   routing layer should read as a wiring diagram.
 - **Wholesale `'use client'`**: marking a page or layout as a client component
   drags everything below it into the client bundle.
-- **Grab-bag modules**: `utils.ts` / `helpers.ts` accumulating unrelated code.
-  Name the concept, or place the code in its role directory.
+- **Grab-bag modules**: a `utils.ts` / `helpers.ts` file accumulating unrelated
+  code. Shared pure helpers go to `utils/` as topic-named files; everything
+  else belongs to a concept or role directory.
