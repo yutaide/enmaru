@@ -18,8 +18,15 @@ export const logtoConfig: LogtoNextConfig = {
 // Logto application settings (handled by src/app/callback/route.ts).
 export const logtoCallbackUrl = `${logtoConfig.baseUrl}/callback`;
 
-// Read the current auth context (sign-in status + user claims). Safe to call
+// Read the current auth context (sign-in status + ID-token claims). Safe to call
 // in Server Components and other server code.
 export function getAuthContext(): Promise<LogtoContext> {
   return getLogtoContext(logtoConfig);
+}
+
+// Same, but also hits Logto's userinfo endpoint so `userInfo` (email, etc.) is
+// populated. Used at registration to seed the User record; heavier than
+// getAuthContext, so prefer that when only sign-in status / sub is needed.
+export function getAuthContextWithUserInfo(): Promise<LogtoContext> {
+  return getLogtoContext(logtoConfig, {fetchUserInfo: true});
 }
