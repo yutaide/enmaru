@@ -3,7 +3,7 @@ import {S3Client} from '@aws-sdk/client-s3';
 // Cloudflare R2 is S3-compatible. The region is always "auto" and the endpoint
 // points at the account's R2 gateway. Credentials are an R2 API token
 // (access key id / secret). Local dev uses a dev bucket; production values are
-// set in Vercel env vars. Cached on globalThis to avoid creating a new client
+// set as Netlify env vars. Cached on globalThis to avoid creating a new client
 // on every hot reload in development (mirrors src/lib/prisma.ts).
 const globalForR2 = globalThis as unknown as {r2?: S3Client};
 

@@ -34,8 +34,8 @@ yarn-error.log*
 .env*
 !.env.example
 
-# vercel
-.vercel
+# netlify (CLI local state)
+.netlify
 
 # e2e (Playwright)
 /e2e/node_modules
