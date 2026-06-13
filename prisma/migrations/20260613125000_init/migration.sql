@@ -14,10 +14,10 @@ CREATE TYPE "ReviewStatus" AS ENUM ('NONE', 'PARTIAL', 'DONE');
 CREATE TYPE "Party" AS ENUM ('SEEKER', 'NURSERY');
 
 -- CreateEnum
-CREATE TYPE "DocumentType" AS ENUM ('RESUME', 'LICENSE', 'HEALTH_CHECK', 'STOOL_TEST');
+CREATE TYPE "SeekerDocumentType" AS ENUM ('RESUME', 'LICENSE', 'HEALTH_CHECK', 'STOOL_TEST');
 
 -- CreateEnum
-CREATE TYPE "DocumentStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+CREATE TYPE "SeekerDocumentStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -85,7 +85,7 @@ CREATE TABLE "JobPosting" (
     "hourlyWage" INTEGER,
     "targetPerson" TEXT,
     "remarks" TEXT,
-    "requiredDocuments" "DocumentType"[] DEFAULT ARRAY[]::"DocumentType"[],
+    "requiredDocuments" "SeekerDocumentType"[] DEFAULT ARRAY[]::"SeekerDocumentType"[],
     "status" "JobStatus" NOT NULL DEFAULT 'OPEN',
     "postedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -123,28 +123,28 @@ CREATE TABLE "WorkReport" (
 );
 
 -- CreateTable
-CREATE TABLE "Message" (
+CREATE TABLE "ChatMessage" (
     "id" TEXT NOT NULL,
     "engagementId" TEXT NOT NULL,
     "senderId" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ChatMessage_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Document" (
+CREATE TABLE "SeekerDocument" (
     "id" TEXT NOT NULL,
     "seekerId" TEXT NOT NULL,
-    "documentType" "DocumentType" NOT NULL,
+    "documentType" "SeekerDocumentType" NOT NULL,
     "fileKey" TEXT NOT NULL,
-    "status" "DocumentStatus" NOT NULL DEFAULT 'PENDING',
+    "status" "SeekerDocumentStatus" NOT NULL DEFAULT 'PENDING',
     "rejectionReason" TEXT,
     "uploadedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "verifiedAt" TIMESTAMP(3),
 
-    CONSTRAINT "Document_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "SeekerDocument_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -214,7 +214,7 @@ CREATE UNIQUE INDEX "Engagement_jobId_seekerId_key" ON "Engagement"("jobId", "se
 CREATE UNIQUE INDEX "WorkReport_engagementId_reporter_key" ON "WorkReport"("engagementId", "reporter");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Document_seekerId_documentType_key" ON "Document"("seekerId", "documentType");
+CREATE UNIQUE INDEX "SeekerDocument_seekerId_documentType_key" ON "SeekerDocument"("seekerId", "documentType");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ReviewNurseryToSeeker_engagementId_key" ON "ReviewNurseryToSeeker"("engagementId");
@@ -241,13 +241,13 @@ ALTER TABLE "Engagement" ADD CONSTRAINT "Engagement_seekerId_fkey" FOREIGN KEY (
 ALTER TABLE "WorkReport" ADD CONSTRAINT "WorkReport_engagementId_fkey" FOREIGN KEY ("engagementId") REFERENCES "Engagement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_engagementId_fkey" FOREIGN KEY ("engagementId") REFERENCES "Engagement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ChatMessage" ADD CONSTRAINT "ChatMessage_engagementId_fkey" FOREIGN KEY ("engagementId") REFERENCES "Engagement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ChatMessage" ADD CONSTRAINT "ChatMessage_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Document" ADD CONSTRAINT "Document_seekerId_fkey" FOREIGN KEY ("seekerId") REFERENCES "SeekerProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SeekerDocument" ADD CONSTRAINT "SeekerDocument_seekerId_fkey" FOREIGN KEY ("seekerId") REFERENCES "SeekerProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
