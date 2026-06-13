@@ -2,7 +2,7 @@ import type {LogtoNextConfig} from '@logto/next';
 import {getLogtoContext, type LogtoContext} from '@logto/next/server-actions';
 
 // Logto Cloud configuration. Local dev points at a dev Logto tenant/app;
-// production values are set in Vercel env vars. `cookieSecret` encrypts the
+// production values are set as Netlify env vars. `cookieSecret` encrypts the
 // session cookie and must be a long random string; `cookieSecure` requires
 // HTTPS, so it is only enabled in production.
 export const logtoConfig: LogtoNextConfig = {
