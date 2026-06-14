@@ -87,59 +87,20 @@ repo; GitHub Actions only runs the quality-gate CI.
 
 ## Commands
 
-| Command                    | Description                                |
-| -------------------------- | ------------------------------------------ |
-| `pnpm dev`                 | Dev server (host)                          |
-| `pnpm build`               | `prisma generate` + production build       |
-| `pnpm lint`                | ESLint                                     |
-| `pnpm format`              | Prettier (write)                           |
-| `pnpm typecheck`           | `tsc --noEmit`                             |
-| `pnpm db:migrate`          | Prisma migration (dev)                     |
-| `pnpm db:studio`           | Prisma Studio                              |
-| `pnpm admin:grant <email>` | Grant the ADMIN role to a user (see below) |
-| `./cmd test unit`          | Vitest unit tests                          |
-| `./cmd test e2e-setup`     | Install Playwright browser (one-time)      |
-| `./cmd test e2e`           | Playwright e2e (host, via webServer)       |
-| `./cmd test e2e-report`    | Open the last e2e HTML report              |
-
-## Granting an admin
-
-Admins (the KASUMIN operator) are not self-registered — sign-up only creates
-seeker / nursery accounts, and the `(admin)` area is role-guarded. So you create
-an admin in two steps: the person signs up through the app normally, then you
-promote their account.
-
-**Pick one environment and stay in it.** The person must sign up on the same
-environment whose database you then run the grant against (both dev, or both
-prod). They are separate databases, so an account created on dev does not exist
-in prod.
-
-1. **Sign up (in a browser).** The person opens the app for that environment and
-   registers — any role, since it gets overwritten:
-   - Dev: <http://localhost:3000> (your local `pnpm dev`)
-   - Prod: <https://enmaru.kasumin.biz>
-
-   Click ログイン / 新規登録 → sign in via Logto → finish the registration step.
-   This creates their `User` row (keyed by email) in that environment's database.
-
-2. **Promote (from this repo, on your machine).** The grant command connects to
-   whichever database `DATABASE_URL` points at, so use the form that matches
-   where they signed up:
-   - Dev — uses `.env.local` (the dev Neon branch):
-     ```bash
-     pnpm admin:grant person@example.com
-     ```
-   - Prod — point `DATABASE_URL` at the production database:
-     ```bash
-     DATABASE_URL="<prod connection string>" node scripts/grant-admin.mjs person@example.com
-     ```
-
-   The script prints the updated user, or errors if no user has that email — e.g.
-   they haven't registered yet, or registered on a different environment than the
-   one `DATABASE_URL` targets.
-
-Verify by signing in as that person and opening `/admin`. The role lives on the
-`User` row, so it takes effect on their next request — no redeploy.
+| Command                    | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `pnpm dev`                 | Dev server (host)                                                    |
+| `pnpm build`               | `prisma generate` + production build                                 |
+| `pnpm lint`                | ESLint                                                               |
+| `pnpm format`              | Prettier (write)                                                     |
+| `pnpm typecheck`           | `tsc --noEmit`                                                       |
+| `pnpm db:migrate`          | Prisma migration (dev)                                               |
+| `pnpm db:studio`           | Prisma Studio                                                        |
+| `pnpm admin:grant <email>` | Grant the ADMIN role to a user ([operations.md](docs/operations.md)) |
+| `./cmd test unit`          | Vitest unit tests                                                    |
+| `./cmd test e2e-setup`     | Install Playwright browser (one-time)                                |
+| `./cmd test e2e`           | Playwright e2e (host, via webServer)                                 |
+| `./cmd test e2e-report`    | Open the last e2e HTML report                                        |
 
 ## Where to look next
 
@@ -155,6 +116,8 @@ Find the right document by the question you have:
   - [Conventions](docs/conventions/index.md) — coding, repo, docs
 - **How is the project tested?**
   - [Testing](docs/testing.md) — where each layer's tests live, how to run them
+- **How do I run an operator task (e.g. grant admin)?**
+  - [Operations](docs/operations.md) — operator procedures
 - **How do I write or run e2e tests specifically?**
   - [`e2e/README.md`](e2e/README.md) — Playwright structure, page objects, fixtures
 
