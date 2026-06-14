@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import SectionHeading from '@/components/SectionHeading';
 import StatusChip from '@/components/StatusChip';
+import WorkFlowActions from '@/components/WorkFlowActions';
 import {listNurseryMatches} from '@/server/match';
 import {EngagementStatus} from '@/types/Engagement';
 import type {NurseryMatch} from '@/types/Match';
@@ -170,6 +171,16 @@ const MatchCard = ({match}: {match: NurseryMatch}) => (
           LINE連絡OK
         </Typography>
       )}
+    </Box>
+
+    <Box sx={{mt: 1.5}}>
+      <WorkFlowActions
+        engagementId={match.id}
+        engagementStatus={match.engagementStatus}
+        viewerParty="NURSERY"
+        seekerReported={match.seekerReported}
+        nurseryReported={match.nurseryReported}
+      />
     </Box>
   </Box>
 );
