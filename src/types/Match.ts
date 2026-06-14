@@ -55,8 +55,9 @@ export function toMatchStatus(
   return status;
 }
 
-// A match as seen by a nursery in its application inbox. The seeker's real name
-// is intentionally absent until the match is established.
+// A match as seen by a nursery in its application inbox. Every entry is a matched
+// Engagement (matching is immediate, so applying establishes the match), so the
+// seeker's real name is disclosed to the nursery here.
 export interface NurseryMatch {
   id: string;
   status: MatchStatus;
@@ -65,6 +66,7 @@ export interface NurseryMatch {
   workTimeStart: string;
   workTimeEnd: string;
   seekerDisplayName: string;
+  seekerRealName: string;
   seekerPreferredStyle: string[];
   applyMessage: string | null;
   lineContactOk: boolean;

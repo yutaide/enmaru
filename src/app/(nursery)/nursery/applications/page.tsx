@@ -97,6 +97,14 @@ const MatchCard = ({match}: {match: NurseryMatch}) => (
       <Box>
         <Typography variant="subtitle2" sx={{fontWeight: 700}}>
           {match.seekerDisplayName}
+          <Typography
+            component="span"
+            variant="caption"
+            color="text.secondary"
+            sx={{ml: 0.5, fontWeight: 400}}
+          >
+            （{match.seekerRealName}）
+          </Typography>
         </Typography>
         {match.seekerPreferredStyle.length > 0 && (
           <Box sx={{display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 0.5}}>
