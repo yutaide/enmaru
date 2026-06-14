@@ -18,6 +18,10 @@ export interface NurseryMatch {
   applyMessage: string | null;
   lineContactOk: boolean;
   appliedAt: string;
+  // Whether each party has filed its work-completion report; the nursery view
+  // uses these to drive its report action and waiting state.
+  seekerReported: boolean;
+  nurseryReported: boolean;
 }
 
 // An engagement as seen by an admin in the matching console. Admins can see the

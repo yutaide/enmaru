@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import SectionHeading from '@/components/SectionHeading';
 import StatusChip from '@/components/StatusChip';
+import WorkFlowActions from '@/components/WorkFlowActions';
 import {listSeekerApplications} from '@/server/application';
 
 export default async function ApplicationsPage() {
@@ -76,6 +77,15 @@ export default async function ApplicationsPage() {
                 >
                   応募日: {new Date(app.appliedAt).toLocaleDateString('ja-JP')}
                 </Typography>
+                <Box sx={{mt: 1.5}}>
+                  <WorkFlowActions
+                    engagementId={app.id}
+                    engagementStatus={app.engagementStatus}
+                    viewerParty="SEEKER"
+                    seekerReported={app.seekerReported}
+                    nurseryReported={app.nurseryReported}
+                  />
+                </Box>
               </Box>
             ))}
           </Box>
