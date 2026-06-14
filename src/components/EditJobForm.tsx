@@ -23,7 +23,7 @@ export default function EditJobForm({jobId, initial, initialStatus}: Props) {
   const [form, setForm] = useState<JobInput>(initial);
   const [status, setStatus] = useState<JobStatus>(initialStatus);
   const [saving, setSaving] = useState(false);
-  const [toggling, setToggling] = useState(false);
+  const [updatingJobStatus, setUpdatingJobStatus] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
@@ -49,7 +49,7 @@ export default function EditJobForm({jobId, initial, initialStatus}: Props) {
 
   async function handleToggleStatus() {
     const next = status === JobStatus.OPEN ? JobStatus.CLOSED : JobStatus.OPEN;
-    setToggling(true);
+    setUpdatingJobStatus(true);
     setError(null);
     try {
       const result = await setJobStatus(jobId, next);
@@ -62,7 +62,7 @@ export default function EditJobForm({jobId, initial, initialStatus}: Props) {
     } catch {
       setError('ステータスの更新に失敗しました。');
     } finally {
-      setToggling(false);
+      setUpdatingJobStatus(false);
     }
   }
 
@@ -81,7 +81,7 @@ export default function EditJobForm({jobId, initial, initialStatus}: Props) {
           variant="outlined"
           size="small"
           onClick={handleToggleStatus}
-          disabled={toggling}
+          disabled={updatingJobStatus}
           sx={{
             borderColor: status === JobStatus.OPEN ? '#AAAAAA' : '#F4A7B9',
             color: status === JobStatus.OPEN ? '#666666' : '#F4A7B9',
