@@ -24,6 +24,9 @@ const STATUS_STYLE: Record<SeekerDocumentStatus, {bg: string; color: string}> =
     REJECTED: {bg: '#FFEBEE', color: '#C62828'},
   };
 
+// Must match MAX_BYTES in server/document-actions.ts.
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
 export default function DocumentUploadRow({doc}: {doc: MyDocument}) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
@@ -34,6 +37,12 @@ export default function DocumentUploadRow({doc}: {doc: MyDocument}) {
     e.preventDefault();
     if (!file) {
       setError('ファイルを選択してください。');
+      return;
+    }
+    // Reject oversize files before sending, so the user gets a clear message
+    // (and we never hit the Server Action body limit). The server re-checks.
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setError('ファイルサイズは10MBまでにしてください。');
       return;
     }
     setBusy(true);
