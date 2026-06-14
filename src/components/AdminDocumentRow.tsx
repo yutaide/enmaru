@@ -41,6 +41,10 @@ export default function AdminDocumentRow({doc}: {doc: AdminDocument}) {
         setError(result.message ?? '操作に失敗しました。');
         return;
       }
+      // router.refresh() re-fetches the server data but preserves this client
+      // component's local state, so close the reject form explicitly.
+      setRejecting(false);
+      setReason('');
       router.refresh();
     } catch {
       setError('操作に失敗しました。時間をおいて再度お試しください。');
@@ -144,7 +148,7 @@ export default function AdminDocumentRow({doc}: {doc: AdminDocument}) {
           <Button
             variant="outlined"
             size="small"
-            disabled={busy}
+            disabled={busy || doc.status === SeekerDocumentStatus.REJECTED}
             onClick={() => setRejecting(true)}
             sx={{borderColor: '#C62828', color: '#C62828'}}
           >
