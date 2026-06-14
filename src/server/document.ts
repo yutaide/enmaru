@@ -74,5 +74,11 @@ export async function getAccessibleDocumentFile(
   const isOwner = doc.seeker.userId === user.id;
   if (!isAdmin && !isOwner) return null;
 
-  return getObjectStream(doc.fileKey);
+  try {
+    return await getObjectStream(doc.fileKey);
+  } catch {
+    // Row exists but the R2 object is missing (drift) — treat as not found so
+    // the route keeps its 404-for-everything contract instead of 500-ing.
+    return null;
+  }
 }

@@ -11,8 +11,10 @@ import Typography from '@mui/material/Typography';
 import ErrorAlert from '@/components/ErrorAlert';
 import {uploadDocument} from '@/server/document-actions';
 import {
+  ALLOWED_DOCUMENT_MIME_TYPES,
   DOCUMENT_STATUS_LABEL,
   DOCUMENT_TYPE_LABEL,
+  MAX_DOCUMENT_BYTES,
   SeekerDocumentStatus,
   type MyDocument,
 } from '@/types/Document';
@@ -23,9 +25,6 @@ const STATUS_STYLE: Record<SeekerDocumentStatus, {bg: string; color: string}> =
     APPROVED: {bg: '#E8F5E9', color: '#2E7D32'},
     REJECTED: {bg: '#FFEBEE', color: '#C62828'},
   };
-
-// Must match MAX_BYTES in server/document-actions.ts.
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 export default function DocumentUploadRow({doc}: {doc: MyDocument}) {
   const router = useRouter();
@@ -41,7 +40,7 @@ export default function DocumentUploadRow({doc}: {doc: MyDocument}) {
     }
     // Reject oversize files before sending, so the user gets a clear message
     // (and we never hit the Server Action body limit). The server re-checks.
-    if (file.size > MAX_UPLOAD_BYTES) {
+    if (file.size > MAX_DOCUMENT_BYTES) {
       setError('ファイルサイズは10MBまでにしてください。');
       return;
     }
@@ -133,7 +132,7 @@ export default function DocumentUploadRow({doc}: {doc: MyDocument}) {
       >
         <input
           type="file"
-          accept="image/jpeg,image/png,image/webp,application/pdf"
+          accept={ALLOWED_DOCUMENT_MIME_TYPES.join(',')}
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           style={{fontSize: '0.8rem'}}
         />

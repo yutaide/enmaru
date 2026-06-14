@@ -20,6 +20,9 @@ export async function GET(
     headers: {
       'Content-Type': file.contentType,
       'Content-Disposition': 'inline',
+      // The content type is the uploader-supplied value and the bytes aren't
+      // content-validated, so prevent MIME sniffing of a spoofed file.
+      'X-Content-Type-Options': 'nosniff',
       'Cache-Control': 'private, no-store',
     },
   });

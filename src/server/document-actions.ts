@@ -6,18 +6,12 @@ import {requireRole} from '@/server/auth';
 import type {ActionResult} from '@/types/ActionResult';
 import {
   ALL_DOCUMENT_TYPES,
+  ALLOWED_DOCUMENT_MIME_TYPES,
+  MAX_DOCUMENT_BYTES,
   SeekerDocumentStatus,
   type SeekerDocumentType,
 } from '@/types/Document';
 import {UserRole} from '@/types/User';
-
-const MAX_BYTES = 10 * 1024 * 1024; // 10MB
-const ALLOWED_TYPES = [
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'application/pdf',
-];
 
 // Seeker uploads (or replaces) one document. Stored in R2 under a key keyed by
 // seeker + type, so a re-upload overwrites the object and resets the row to
@@ -44,10 +38,10 @@ export async function uploadDocument(
   if (!(file instanceof File) || file.size === 0) {
     return {ok: false, message: 'ファイルを選択してください。'};
   }
-  if (file.size > MAX_BYTES) {
+  if (file.size > MAX_DOCUMENT_BYTES) {
     return {ok: false, message: 'ファイルサイズは10MBまでにしてください。'};
   }
-  if (!ALLOWED_TYPES.includes(file.type)) {
+  if (!ALLOWED_DOCUMENT_MIME_TYPES.includes(file.type)) {
     return {
       ok: false,
       message: '画像（JPEG/PNG/WebP）またはPDFをアップロードしてください。',

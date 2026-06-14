@@ -44,6 +44,16 @@ export const DOCUMENT_STATUS_LABEL: Record<SeekerDocumentStatus, string> = {
   REJECTED: '差し戻し',
 };
 
+// Upload constraints, shared by the client pre-check and the authoritative
+// server-side validation (single source of truth across tiers).
+export const MAX_DOCUMENT_BYTES = 10 * 1024 * 1024; // 10 MB
+export const ALLOWED_DOCUMENT_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'application/pdf',
+];
+
 // A seeker's own document of a given type. Fields are null when nothing has
 // been submitted for that type yet. `id` lets the seeker view their own file.
 export interface MyDocument {
