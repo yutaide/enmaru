@@ -20,6 +20,10 @@ function parseJobInput(
   if (!input.workTimeStart || !input.workTimeEnd) {
     return {ok: false, message: '勤務時間（開始・終了）は必須です。'};
   }
+  // Both are zero-padded 'HH:mm', so a lexicographic compare orders them.
+  if (input.workTimeStart >= input.workTimeEnd) {
+    return {ok: false, message: '終了時間は開始時間より後にしてください。'};
+  }
 
   let hourlyWage: number | null = null;
   const wageText = input.hourlyWage.trim();
