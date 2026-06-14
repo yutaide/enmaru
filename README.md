@@ -87,19 +87,20 @@ repo; GitHub Actions only runs the quality-gate CI.
 
 ## Commands
 
-| Command                 | Description                           |
-| ----------------------- | ------------------------------------- |
-| `pnpm dev`              | Dev server (host)                     |
-| `pnpm build`            | `prisma generate` + production build  |
-| `pnpm lint`             | ESLint                                |
-| `pnpm format`           | Prettier (write)                      |
-| `pnpm typecheck`        | `tsc --noEmit`                        |
-| `pnpm db:migrate`       | Prisma migration (dev)                |
-| `pnpm db:studio`        | Prisma Studio                         |
-| `./cmd test unit`       | Vitest unit tests                     |
-| `./cmd test e2e-setup`  | Install Playwright browser (one-time) |
-| `./cmd test e2e`        | Playwright e2e (host, via webServer)  |
-| `./cmd test e2e-report` | Open the last e2e HTML report         |
+| Command                    | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `pnpm dev`                 | Dev server (host)                                                    |
+| `pnpm build`               | `prisma generate` + production build                                 |
+| `pnpm lint`                | ESLint                                                               |
+| `pnpm format`              | Prettier (write)                                                     |
+| `pnpm typecheck`           | `tsc --noEmit`                                                       |
+| `pnpm db:migrate`          | Prisma migration (dev)                                               |
+| `pnpm db:studio`           | Prisma Studio                                                        |
+| `pnpm admin:grant <email>` | Grant the ADMIN role to a user ([operations.md](docs/operations.md)) |
+| `./cmd test unit`          | Vitest unit tests                                                    |
+| `./cmd test e2e-setup`     | Install Playwright browser (one-time)                                |
+| `./cmd test e2e`           | Playwright e2e (host, via webServer)                                 |
+| `./cmd test e2e-report`    | Open the last e2e HTML report                                        |
 
 ## Where to look next
 
@@ -115,6 +116,8 @@ Find the right document by the question you have:
   - [Conventions](docs/conventions/index.md) — coding, repo, docs
 - **How is the project tested?**
   - [Testing](docs/testing.md) — where each layer's tests live, how to run them
+- **How do I run an operator task?**
+  - [Operations](docs/operations.md) — operator procedures
 - **How do I write or run e2e tests specifically?**
   - [`e2e/README.md`](e2e/README.md) — Playwright structure, page objects, fixtures
 
