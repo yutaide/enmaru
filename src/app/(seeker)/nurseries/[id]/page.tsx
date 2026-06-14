@@ -11,10 +11,14 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {notFound} from 'next/navigation';
 
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
 import SectionHeading from '@/components/SectionHeading';
+import SessionHeader from '@/components/SessionHeader';
 import {getPublishedNursery} from '@/server/nursery';
+
+// Public page (no auth guard), so the header must reflect the actual session
+// rather than assume SEEKER. Reads the session, hence force-dynamic.
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{id: string}>;
@@ -30,7 +34,7 @@ export default async function SeekerNurseryDetailPage({params}: Props) {
 
   return (
     <>
-      <Header role="SEEKER" />
+      <SessionHeader />
       <PageContainer maxWidth="md">
         <Box sx={{mb: 3}}>
           <Typography

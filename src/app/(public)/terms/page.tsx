@@ -5,13 +5,13 @@ import Typography from '@mui/material/Typography';
 
 import Footer from '@/components/Footer';
 import PageContainer from '@/components/PageContainer';
-import SiteHeader from '@/components/SiteHeader';
+import SessionHeader from '@/components/SessionHeader';
 
 export const metadata: Metadata = {
   title: '利用規約',
 };
 
-// Renders SiteHeader (reads the session), so it renders per-request.
+// Renders SessionHeader (reads the session), so it renders per-request.
 export const dynamic = 'force-dynamic';
 
 const SECTIONS = [
@@ -44,7 +44,7 @@ const SECTIONS = [
 export default function TermsPage() {
   return (
     <>
-      <SiteHeader />
+      <SessionHeader />
       <PageContainer maxWidth="md">
         <Typography
           variant="h1"

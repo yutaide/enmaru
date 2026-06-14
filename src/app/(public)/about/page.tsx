@@ -11,7 +11,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import Footer from '@/components/Footer';
 import PageContainer from '@/components/PageContainer';
 import SectionHeading from '@/components/SectionHeading';
-import SiteHeader from '@/components/SiteHeader';
+import SessionHeader from '@/components/SessionHeader';
 
 export const metadata: Metadata = {
   title: 'えんまーるとは',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'えんまーるは、保育士と保育園をつなぐスポットマッチングプラットフォームです。',
 };
 
-// Renders SiteHeader (reads the session), so it renders per-request.
+// Renders SessionHeader (reads the session), so it renders per-request.
 export const dynamic = 'force-dynamic';
 
 const FEATURES = [
@@ -71,7 +71,7 @@ const STEPS = [
 export default function AboutPage() {
   return (
     <>
-      <SiteHeader />
+      <SessionHeader />
       <PageContainer maxWidth="md">
         <Box sx={{mb: 4}}>
           <Typography

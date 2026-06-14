@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import NurseryCard from '@/components/NurseryCard';
 import PageContainer from '@/components/PageContainer';
 import SectionHeading from '@/components/SectionHeading';
-import SiteHeader from '@/components/SiteHeader';
+import SessionHeader from '@/components/SessionHeader';
 import {listPublishedNurseries} from '@/server/nursery';
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function NurseriesPage() {
 
   return (
     <>
-      <SiteHeader />
+      <SessionHeader />
       <PageContainer>
         <SectionHeading subtitle="スポットサポートを募集している保育施設">
           保育園一覧
