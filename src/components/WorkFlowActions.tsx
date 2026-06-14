@@ -18,6 +18,11 @@ interface Props {
   viewerParty: 'SEEKER' | 'NURSERY';
   seekerReported: boolean;
   nurseryReported: boolean;
+  // Whether the viewer has already reviewed the counterpart, and where their
+  // review form lives — used to show the 評価する button (or 評価済み) once
+  // the engagement is COMPLETED.
+  viewerReviewed: boolean;
+  reviewHref: string;
 }
 
 export default function WorkFlowActions({
@@ -26,6 +31,8 @@ export default function WorkFlowActions({
   viewerParty,
   seekerReported,
   nurseryReported,
+  viewerReviewed,
+  reviewHref,
 }: Props) {
   const router = useRouter();
   const [reporting, setReporting] = useState(false);
@@ -57,9 +64,20 @@ export default function WorkFlowActions({
 
   if (engagementStatus === EngagementStatus.COMPLETED) {
     return (
-      <Typography variant="caption" sx={{color: '#6A1B9A'}}>
-        業務完了しました
-      </Typography>
+      <Box sx={{display: 'flex', alignItems: 'center', gap: 1.5}}>
+        <Typography variant="caption" sx={{color: '#6A1B9A'}}>
+          業務完了しました
+        </Typography>
+        {viewerReviewed ? (
+          <Typography variant="caption" sx={{color: '#AAAAAA'}}>
+            評価済み
+          </Typography>
+        ) : (
+          <Button href={reviewHref} variant="contained" size="small">
+            評価する
+          </Button>
+        )}
+      </Box>
     );
   }
 
