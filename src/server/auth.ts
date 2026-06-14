@@ -1,3 +1,4 @@
+import {cache} from 'react';
 import {redirect} from 'next/navigation';
 
 import {getAuthContext} from '@/lib/logto';
@@ -11,11 +12,15 @@ import type {Role, User} from '@/generated/prisma/client';
 // The signed-in user's app record, or null when not signed in OR signed in to
 // Logto but not yet registered (no User row). This is the single place that maps
 // a Logto session to our User; everything else reads the result.
-export async function getCurrentUser(): Promise<User | null> {
+//
+// Wrapped in React cache() so it is memoized per request: a group-layout guard
+// and the page it wraps can both call it (directly or via requireRole) without a
+// duplicate session lookup + query.
+export const getCurrentUser = cache(async (): Promise<User | null> => {
   const {isAuthenticated, claims} = await getAuthContext();
   if (!isAuthenticated || !claims?.sub) return null;
   return prisma.user.findUnique({where: {authId: claims.sub}});
-}
+});
 
 // Guard for role-scoped pages: require a signed-in, registered user whose role is
 // allowed. Redirects to sign-in when absent, home when forbidden. Returns the
