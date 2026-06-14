@@ -3,7 +3,8 @@ import {redirect} from 'next/navigation';
 
 import {getAuthContext} from '@/lib/logto';
 import {prisma} from '@/lib/prisma';
-import type {Role, User} from '@/generated/prisma/client';
+import type {User} from '@/generated/prisma/client';
+import {UserRole} from '@/types/User';
 
 // Server-only auth/session helpers. The sign-in / sign-out Server Actions live in
 // auth-actions.ts (a 'use server' file) because client components import them;
@@ -25,7 +26,7 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
 // Guard for role-scoped pages: require a signed-in, registered user whose role is
 // allowed. Redirects to sign-in when absent, home when forbidden. Returns the
 // user so callers can use it directly.
-export async function requireRole(allowed: Role[]): Promise<User> {
+export async function requireRole(allowed: UserRole[]): Promise<User> {
   const user = await getCurrentUser();
   if (!user) redirect('/login');
   if (!allowed.includes(user.role)) redirect('/');
@@ -33,8 +34,8 @@ export async function requireRole(allowed: Role[]): Promise<User> {
 }
 
 // The home page a freshly signed-in user of each role should land on.
-export function landingPathForRole(role: Role): string {
-  if (role === 'NURSERY') return '/nursery/mypage';
-  if (role === 'ADMIN') return '/admin/matches';
+export function landingPathForRole(role: UserRole): string {
+  if (role === UserRole.NURSERY) return '/nursery/mypage';
+  if (role === UserRole.ADMIN) return '/admin/matches';
   return '/mypage';
 }

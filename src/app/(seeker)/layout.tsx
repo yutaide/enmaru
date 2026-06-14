@@ -1,4 +1,5 @@
 import {requireRole} from '@/server/auth';
+import {UserRole} from '@/types/User';
 
 // Auth guard for every seeker page in this route group: requireRole redirects a
 // signed-out visitor to sign-in and a wrong-role user to home. Putting it in the
@@ -11,6 +12,6 @@ export default async function SeekerLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await requireRole(['SEEKER']);
+  await requireRole([UserRole.SEEKER]);
   return <>{children}</>;
 }
