@@ -37,11 +37,6 @@ yarn-error.log*
 # netlify (CLI local state)
 .netlify
 
-# e2e (Playwright)
-/e2e/node_modules
-/e2e/playwright-report
-/e2e/test-results
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts

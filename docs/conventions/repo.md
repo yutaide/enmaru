@@ -68,7 +68,7 @@ so that what lands reads as a coherent set of meaningful commits.
   trade-offs that led to it. This prevents the same question from being
   re-evaluated later.
 - Include evidence of verification (what was tested, what was observed) in a test
-  plan. CI covers lint / typecheck / unit / e2e, but not feature behavior — see
+  plan. CI covers format / lint / typecheck / unit, but not feature behavior — see
   "Ship with care" in [`index.md`](index.md).
 - Title is descriptive; no emoji or bracket prefix.
 - Link the related issue with `Closes #N`.

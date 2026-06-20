@@ -61,9 +61,7 @@ Key directories only — not exhaustive.
   - `utils/` — pure, domain-agnostic helpers shared between server and client code
   - `generated/` — Prisma client output (git-ignored; `prisma generate`)
 - `prisma/` — Prisma schema and migrations
-- [`e2e/`](../e2e/README.md) — end-to-end tests (Playwright, standalone npm
-  package)
 - `public/` — static assets served as-is
-- `.github/workflows/` — CI (lint / typecheck / unit / e2e); deploys are Netlify's
+- `.github/workflows/` — CI (format / lint / typecheck / unit); deploys are Netlify's
   GitHub integration, not workflows in this repo
 - `cmd` — entry point for repo utilities (`./cmd` for the command reference)

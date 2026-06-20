@@ -33,7 +33,6 @@ when none of these owns the question.
 | How should the code be written? Style, naming, imports              | [`docs/conventions/coding.md`](coding.md)    |
 | How do we branch / commit / write issues and PRs?                   | [`docs/conventions/repo.md`](repo.md)        |
 | Where do tests live and how do they run?                            | [`docs/testing.md`](../testing.md)           |
-| How do I write or run e2e tests specifically?                       | [`e2e/README.md`](../../e2e/README.md)       |
 | What must a coding agent know before touching code?                 | [`AGENTS.md`](../../AGENTS.md)               |
 
 For in-code comments, see [coding.md](coding.md#comments). The principles overlap,

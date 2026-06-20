@@ -20,8 +20,7 @@
 | Auth            | Logto Cloud (`@logto/next`)                                   |
 | Lint / Format   | ESLint + Prettier                                             |
 | Unit test       | Vitest + Testing Library (jsdom)                              |
-| E2E test        | Playwright (runs on the host, see `e2e/`)                     |
-| CI              | GitHub Actions (lint / typecheck / unit / e2e)                |
+| CI              | GitHub Actions (format / lint / typecheck / unit)             |
 
 There is no Docker: the app runs on the host locally (`pnpm dev`) and on Netlify's managed
 runtime in production. The database, storage, and auth are managed cloud services.
@@ -97,10 +96,8 @@ repo; GitHub Actions only runs the quality-gate CI.
 | `pnpm db:migrate`          | Prisma migration (dev)                                               |
 | `pnpm db:studio`           | Prisma Studio                                                        |
 | `pnpm admin:grant <email>` | Grant the ADMIN role to a user ([operations.md](docs/operations.md)) |
+| `./cmd check`              | Full CI gate locally (format check, lint, typecheck, unit)           |
 | `./cmd test unit`          | Vitest unit tests                                                    |
-| `./cmd test e2e-setup`     | Install Playwright browser (one-time)                                |
-| `./cmd test e2e`           | Playwright e2e (host, via webServer)                                 |
-| `./cmd test e2e-report`    | Open the last e2e HTML report                                        |
 
 ## Where to look next
 
@@ -118,8 +115,6 @@ Find the right document by the question you have:
   - [Testing](docs/testing.md) — where each layer's tests live, how to run them
 - **How do I run an operator task?**
   - [Operations](docs/operations.md) — operator procedures
-- **How do I write or run e2e tests specifically?**
-  - [`e2e/README.md`](e2e/README.md) — Playwright structure, page objects, fixtures
 
-The shipped Vitest and Playwright tests are smoke tests proving the harnesses work; replace
-them as real features land.
+The shipped Vitest tests are smoke tests proving the harness works; replace them as real
+features land.
