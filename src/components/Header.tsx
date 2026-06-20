@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
-import {signOut} from '@/server/auth-actions';
+import {signIn, signOut} from '@/server/auth-actions';
 import {UserRole} from '@/types/User';
 
 interface NavItem {
@@ -132,19 +132,20 @@ export default function Header({role = null}: Props) {
               </Button>
             ) : (
               <>
-                <Button
-                  component={Link}
-                  href="/login"
-                  variant="outlined"
-                  size="small"
-                  sx={{
-                    borderColor: '#F4A7B9',
-                    color: '#F4A7B9',
-                    fontSize: '0.8rem',
-                  }}
-                >
-                  ログイン
-                </Button>
+                <Box component="form" action={signIn}>
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      borderColor: '#F4A7B9',
+                      color: '#F4A7B9',
+                      fontSize: '0.8rem',
+                    }}
+                  >
+                    ログイン
+                  </Button>
+                </Box>
                 <Button
                   component={Link}
                   href="/register"
@@ -235,16 +236,16 @@ export default function Header({role = null}: Props) {
             </Button>
           ) : (
             <>
-              <Button
-                component={Link}
-                href="/login"
-                variant="outlined"
-                fullWidth
-                onClick={() => setDrawerOpen(false)}
-                sx={{borderColor: '#F4A7B9', color: '#F4A7B9'}}
-              >
-                ログイン
-              </Button>
+              <Box component="form" action={signIn}>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  fullWidth
+                  sx={{borderColor: '#F4A7B9', color: '#F4A7B9'}}
+                >
+                  ログイン
+                </Button>
+              </Box>
               <Button
                 component={Link}
                 href="/register"
