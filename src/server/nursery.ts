@@ -1,3 +1,4 @@
+import type {NurseryProfile} from '@/generated/prisma/client';
 import {prisma} from '@/lib/prisma';
 import {getCurrentUser} from '@/server/auth';
 import {listOpenJobsByNursery} from '@/server/job';
@@ -38,13 +39,9 @@ export async function listPublishedNurseries(): Promise<PublicNursery[]> {
 // published reviews). Shared by the public read and the owner preview so both
 // render exactly the same projection. Independent queries run together to cut
 // round-trips.
-async function buildNurseryDetail(n: {
-  id: string;
-  nurseryName: string;
-  area: string;
-  concept: string | null;
-  policy: string | null;
-}): Promise<PublicNurseryDetail> {
+async function buildNurseryDetail(
+  n: Pick<NurseryProfile, 'id' | 'nurseryName' | 'area' | 'concept' | 'policy'>,
+): Promise<PublicNurseryDetail> {
   const [rating, jobPostings, reviews] = await Promise.all([
     getNurseryRating(n.id),
     listOpenJobsByNursery(n.id),
