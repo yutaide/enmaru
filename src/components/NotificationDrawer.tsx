@@ -22,6 +22,7 @@ import {
 } from '@/server/notification-actions';
 import {fetchNotifications} from '@/services/notification';
 import {type Notification, NotificationType} from '@/types/Notification';
+import {formatDateTime} from '@/utils/date';
 
 interface Props {
   open: boolean;
@@ -195,12 +196,7 @@ export default function NotificationDrawer({open, onClose, onChanged}: Props) {
                     variant="caption"
                     sx={{color: '#AAAAAA', display: 'block', mt: 0.25}}
                   >
-                    {new Date(item.createdAt).toLocaleString('ja-JP', {
-                      month: 'numeric',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                    {formatDateTime(item.createdAt)}
                   </Typography>
                 </Box>
               </Box>

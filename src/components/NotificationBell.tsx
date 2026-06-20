@@ -1,6 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -18,37 +18,38 @@ const POLL_INTERVAL_MS = 30000;
 export default function NotificationBell() {
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
+  // Guards every async setState against firing after unmount; used by both the
+  // poll and the drawer's onChanged refresh.
+  const mountedRef = useRef(true);
 
-  // Stable refresh for the drawer's onChanged callback (called from a child event
-  // handler). The setState lands after an await, so it never runs synchronously.
+  // The single update path: fetch the count, set it (after the await, and only
+  // while mounted). Stable so the drawer's onChanged can call it too.
   const refresh = useCallback(async () => {
     try {
-      setCount(await fetchUnreadCount());
+      const next = await fetchUnreadCount();
+      if (mountedRef.current) setCount(next);
     } catch {
       // Ignore transient failures (and the not-signed-in case, which returns 0).
     }
   }, []);
 
-  // Poll the unread count. The fetch+setCount live in an inner async function so
-  // the state update only happens after the await (never synchronously in the
-  // effect), and an `active` guard drops a late response after unmount.
+  // Poll via a self-scheduling timeout (re-armed after each refresh settles)
+  // rather than a fixed interval, so at most one request is in flight and a
+  // slower-older response can't clobber a fresher one — same approach as
+  // ChatPanel's poll.
   useEffect(() => {
-    let active = true;
+    mountedRef.current = true;
+    let timer: ReturnType<typeof setTimeout>;
     async function tick() {
-      try {
-        const next = await fetchUnreadCount();
-        if (active) setCount(next);
-      } catch {
-        // Ignore transient failures (and the not-signed-in case, which returns 0).
-      }
+      await refresh();
+      if (mountedRef.current) timer = setTimeout(tick, POLL_INTERVAL_MS);
     }
     void tick();
-    const timer = setInterval(tick, POLL_INTERVAL_MS);
     return () => {
-      active = false;
-      clearInterval(timer);
+      mountedRef.current = false;
+      clearTimeout(timer);
     };
-  }, []);
+  }, [refresh]);
 
   return (
     <>

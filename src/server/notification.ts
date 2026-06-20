@@ -1,8 +1,7 @@
 import {pushLineMessage} from '@/lib/line';
 import {prisma} from '@/lib/prisma';
-import {getCurrentUser, requireRole} from '@/server/auth';
+import {getCurrentUser} from '@/server/auth';
 import {decodeNotification, type NotificationType} from '@/types/Notification';
-import {UserRole} from '@/types/User';
 
 // The single seam for raising a notification. Records the durable in-app row,
 // then best-effort pushes to LINE. The whole thing is wrapped so it NEVER throws:
@@ -57,14 +56,14 @@ export async function notifyMany(
   await Promise.all(userIds.map((userId) => notify({userId, ...payload})));
 }
 
-// The signed-in user's notifications, newest first (capped). Guarded to any
-// signed-in role; a user only ever sees their own rows.
+// The signed-in user's notifications, newest first (capped). Returns an empty
+// list when not signed in rather than redirecting: this is read over HTTP from
+// the drawer, and a redirect would reach the client as an opaque response that
+// breaks the fetch. A user only ever sees their own rows. (Same getCurrentUser
+// basis as unreadCountForCurrentUser, so both read endpoints behave alike.)
 export async function listForCurrentUser() {
-  const user = await requireRole([
-    UserRole.SEEKER,
-    UserRole.NURSERY,
-    UserRole.ADMIN,
-  ]);
+  const user = await getCurrentUser();
+  if (!user) return [];
   const rows = await prisma.notification.findMany({
     where: {userId: user.id},
     orderBy: {createdAt: 'desc'},
