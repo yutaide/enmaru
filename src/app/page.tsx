@@ -16,7 +16,12 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import Footer from '@/components/Footer';
 import SessionHeader from '@/components/SessionHeader';
 
-function SakuraDecoration({size, opacity, rotate, position}: {
+function SakuraDecoration({
+  size,
+  opacity,
+  rotate,
+  position,
+}: {
   size: number;
   opacity: number;
   rotate: number;
@@ -151,8 +156,18 @@ export default function Home() {
         </Box>
 
         {/* sakura decorations */}
-        <SakuraDecoration size={190} opacity={0.35} rotate={12} position={{top: 16, right: 24}} />
-        <SakuraDecoration size={150} opacity={0.28} rotate={-18} position={{bottom: 16, left: 24}} />
+        <SakuraDecoration
+          size={190}
+          opacity={0.35}
+          rotate={12}
+          position={{top: 16, right: 24}}
+        />
+        <SakuraDecoration
+          size={150}
+          opacity={0.28}
+          rotate={-18}
+          position={{bottom: 16, left: 24}}
+        />
 
         {/* copy */}
         <Container
@@ -221,10 +236,7 @@ export default function Home() {
             }}
           >
             えんまーるは、短時間から始められる新しい「復職支援」の形。
-            <Box
-              component="br"
-              sx={{display: {xs: 'none', sm: 'inline'}}}
-            />
+            <Box component="br" sx={{display: {xs: 'none', sm: 'inline'}}} />
             保育専門のスポットマッチングで、自分に合った働き方を探す保育士と、安心して子どもと向き合いたい保育園を丁寧にサポートします。
           </Typography>
 
@@ -251,10 +263,7 @@ export default function Home() {
             >
               まずは登録してみる
             </Button>
-            <Typography
-              variant="caption"
-              sx={{fontSize: '.78rem'}}
-            >
+            <Typography variant="caption" sx={{fontSize: '.78rem'}}>
               登録は無料・いつでも退会できます
             </Typography>
           </Box>
