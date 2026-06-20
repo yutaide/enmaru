@@ -16,7 +16,7 @@ const POLL_INTERVAL_MS = 30000;
 // every role page (not only via SessionHeader), so a prop would have to be
 // threaded through every call site.
 export default function NotificationBell() {
-  const [count, setCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [open, setOpen] = useState(false);
   // Guards every async setState against firing after unmount; used by both the
   // poll and the drawer's onChanged refresh.
@@ -26,8 +26,8 @@ export default function NotificationBell() {
   // while mounted). Stable so the drawer's onChanged can call it too.
   const refresh = useCallback(async () => {
     try {
-      const next = await fetchUnreadCount();
-      if (mountedRef.current) setCount(next);
+      const count = await fetchUnreadCount();
+      if (mountedRef.current) setUnreadCount(count);
     } catch {
       // Ignore transient failures (and the not-signed-in case, which returns 0).
     }
@@ -59,7 +59,7 @@ export default function NotificationBell() {
         aria-label="お知らせ"
         sx={{color: '#666666'}}
       >
-        <Badge badgeContent={count} color="error" max={99}>
+        <Badge badgeContent={unreadCount} color="error" max={99}>
           <NotificationsNoneIcon />
         </Badge>
       </IconButton>

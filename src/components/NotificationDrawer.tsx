@@ -86,7 +86,13 @@ export default function NotificationDrawer({open, onClose, onChanged}: Props) {
 
   async function handleRowClick(item: Notification) {
     if (!item.isRead) {
+      // Persist, reflect locally (so the row shows read if the drawer stays open,
+      // e.g. a notification with no linkUrl), then let the bell refresh — same
+      // server -> local state -> onChanged order as handleMarkAll.
       await markNotificationRead(item.id);
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === item.id ? {...n, isRead: true} : n)),
+      );
       onChanged();
     }
     onClose();

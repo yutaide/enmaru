@@ -42,32 +42,23 @@ export async function notify(input: {
   }
 }
 
-// Raise the same notification to several recipients, each independent so one
-// failure does not skip the rest.
-export async function notifyMany(
-  userIds: string[],
-  payload: {
-    type: NotificationType;
-    title: string;
-    body: string;
-    linkUrl?: string;
-  },
-): Promise<void> {
-  await Promise.all(userIds.map((userId) => notify({userId, ...payload})));
-}
+// How many recent notifications the drawer loads. The drawer is a recent-activity
+// view, not a full archive, so it shows only the latest few rather than every row.
+const NOTIFICATION_LIST_LIMIT = 30;
 
-// The signed-in user's notifications, newest first (capped). Returns an empty
-// list when not signed in rather than redirecting: this is read over HTTP from
-// the drawer, and a redirect would reach the client as an opaque response that
-// breaks the fetch. A user only ever sees their own rows. (Same getCurrentUser
-// basis as unreadCountForCurrentUser, so both read endpoints behave alike.)
+// The signed-in user's notifications, newest first (latest NOTIFICATION_LIST_LIMIT).
+// Returns an empty list when not signed in rather than redirecting: this is read
+// over HTTP from the drawer, and a redirect would reach the client as an opaque
+// response that breaks the fetch. A user only ever sees their own rows. (Same
+// getCurrentUser basis as unreadCountForCurrentUser, so both read endpoints
+// behave alike.)
 export async function listForCurrentUser() {
   const user = await getCurrentUser();
   if (!user) return [];
   const rows = await prisma.notification.findMany({
     where: {userId: user.id},
     orderBy: {createdAt: 'desc'},
-    take: 30,
+    take: NOTIFICATION_LIST_LIMIT,
   });
   return rows.map(decodeNotification);
 }
