@@ -5,8 +5,6 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import NextLink from 'next/link';
-
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import PageContainer from '@/components/PageContainer';
@@ -27,7 +25,7 @@ export default async function ProfilePreviewPage() {
     <>
       <Header role="SEEKER" />
       <PageContainer maxWidth="sm">
-        <SectionHeading subtitle="保育園からはこのように見えます">
+        <SectionHeading subtitle="マッチング成立後、保育園にはこのように見えます">
           プロフィールプレビュー
         </SectionHeading>
 
@@ -45,6 +43,14 @@ export default async function ProfilePreviewPage() {
           <Box>
             <Typography variant="subtitle1" sx={{fontWeight: 700}}>
               {profile.displayName}
+              <Typography
+                component="span"
+                variant="caption"
+                color="text.secondary"
+                sx={{ml: 0.5, fontWeight: 400}}
+              >
+                （{profile.realName}）
+              </Typography>
             </Typography>
             {profile.preferredStyle.length > 0 && (
               <Box sx={{display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 0.75}}>
@@ -93,46 +99,9 @@ export default async function ProfilePreviewPage() {
               </Box>
             </>
           )}
-
-          {(profile.bio || profile.skills) && (
-            <>
-              <Divider />
-              <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
-                {profile.bio && (
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{display: 'block', mb: 0.25}}
-                    >
-                      自己紹介
-                    </Typography>
-                    <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
-                      {profile.bio}
-                    </Typography>
-                  </Box>
-                )}
-                {profile.skills && (
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{display: 'block', mb: 0.25}}
-                    >
-                      経験・スキル
-                    </Typography>
-                    <Typography variant="body2" sx={{whiteSpace: 'pre-wrap'}}>
-                      {profile.skills}
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            </>
-          )}
         </Box>
 
         <Button
-          component={NextLink}
           href="/profile"
           variant="outlined"
           sx={{mt: 3}}
