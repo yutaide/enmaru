@@ -2,8 +2,9 @@ import type {EngagementStatus, ReviewStatus} from '@/types/Engagement';
 
 // An engagement as seen by a nursery in its application inbox. Every entry is a
 // matched Engagement (matching is immediate, so applying establishes the match),
-// so the seeker's real name is disclosed to the nursery here. State is carried as
-// the two real axes; StatusChip derives the single display badge from them.
+// so the seeker's real name, blank-years, and work experience are disclosed to
+// the nursery here. State is carried as the two real axes; StatusChip derives the
+// single display badge from them.
 export interface NurseryMatch {
   id: string;
   engagementStatus: EngagementStatus;
