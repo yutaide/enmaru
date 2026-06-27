@@ -5,8 +5,9 @@ import {UserRole} from '@/types/User';
 
 // Engagements on the signed-in nursery's postings (newest first) — its
 // application inbox. Every entry is a matched Engagement, so the seeker's real
-// name is disclosed to the nursery (matching is immediate; applying establishes
-// the match). Guarded to NURSERY; empty until the nursery has a profile.
+// name, blank-years, and work experience are disclosed to the nursery here
+// (matching is immediate; applying establishes the match). Guarded to NURSERY;
+// empty until the nursery has a profile.
 export async function listNurseryMatches(): Promise<NurseryMatch[]> {
   const user = await requireRole([UserRole.NURSERY]);
   const profile = await prisma.nurseryProfile.findUnique({
@@ -26,7 +27,13 @@ export async function listNurseryMatches(): Promise<NurseryMatch[]> {
         },
       },
       seeker: {
-        select: {displayName: true, realName: true, preferredStyle: true},
+        select: {
+          displayName: true,
+          realName: true,
+          preferredStyle: true,
+          blankYears: true,
+          experience: true,
+        },
       },
       reviewNurseryToSeeker: {select: {id: true}},
     },
@@ -44,6 +51,8 @@ export async function listNurseryMatches(): Promise<NurseryMatch[]> {
     seekerDisplayName: e.seeker.displayName,
     seekerRealName: e.seeker.realName,
     seekerPreferredStyle: e.seeker.preferredStyle,
+    seekerBlankYears: e.seeker.blankYears,
+    seekerExperience: e.seeker.experience,
     applyMessage: e.applyMessage,
     lineContactOk: e.lineContactOk,
     appliedAt: e.createdAt.toISOString(),

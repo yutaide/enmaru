@@ -82,6 +82,26 @@ export default async function NurseryApplicationsPage() {
   );
 }
 
+// A caption label above a (possibly multi-line) value, used for the apply
+// message and the disclosed seeker fields in a match card.
+const LabeledText = ({label, value}: {label: string; value: string}) => (
+  <Box>
+    <Typography
+      variant="caption"
+      color="text.secondary"
+      sx={{display: 'block', mb: 0.25}}
+    >
+      {label}
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{fontSize: '0.8rem', whiteSpace: 'pre-wrap'}}
+    >
+      {value}
+    </Typography>
+  </Box>
+);
+
 const MatchCard = ({match}: {match: NurseryMatch}) => (
   <Box
     sx={{
@@ -136,6 +156,28 @@ const MatchCard = ({match}: {match: NurseryMatch}) => (
       {match.workTimeStart}〜{match.workTimeEnd}
     </Typography>
 
+    {(match.seekerBlankYears || match.seekerExperience) && (
+      <Box
+        sx={{
+          mt: 1,
+          p: 1,
+          bgcolor: '#FFFFFF',
+          borderRadius: 1,
+          border: '1px solid #F0F0F0',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0.75,
+        }}
+      >
+        {match.seekerBlankYears && (
+          <LabeledText label="ブランク期間" value={match.seekerBlankYears} />
+        )}
+        {match.seekerExperience && (
+          <LabeledText label="職務経歴" value={match.seekerExperience} />
+        )}
+      </Box>
+    )}
+
     {match.applyMessage && (
       <Box
         sx={{
@@ -146,19 +188,7 @@ const MatchCard = ({match}: {match: NurseryMatch}) => (
           border: '1px solid #F0F0F0',
         }}
       >
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{display: 'block', mb: 0.25}}
-        >
-          応募メッセージ
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{fontSize: '0.8rem', whiteSpace: 'pre-wrap'}}
-        >
-          {match.applyMessage}
-        </Typography>
+        <LabeledText label="応募メッセージ" value={match.applyMessage} />
       </Box>
     )}
 
