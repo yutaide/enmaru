@@ -271,7 +271,7 @@ export default function Home() {
       </Box>
 
       {/* 2. About */}
-      <Box sx={{bgcolor: '#F9F9F9', py: {xs: 5, md: 7}}}>
+      <Box sx={{bgcolor: '#FFFFFF', py: {xs: 5, md: 7}}}>
         <Container maxWidth="md" sx={{px: {xs: 2, md: 3}}}>
           <Typography
             variant="h2"
@@ -290,26 +290,17 @@ export default function Home() {
                 color="text.secondary"
                 sx={{lineHeight: 2, textWrap: 'pretty'}}
               >
-                えんまーるは、保育士と保育園をつなぐ保育専門のスポットマッチングサービスです。「また働きたいけど、いきなりフルタイムは不安」そんな声に応えて生まれました。午前のみ・単発・週1など、ライフスタイルに合わせた柔軟な働き方で、あなたにぴったりのご縁を結びます。
+                えんまーるは、保育士と保育園をつなぐ保育専門のスポットマッチングサービスです。「また働きたいけど、いきなりフルタイムは不安」そんな声に応えて生まれました。午前のみ・単発・週1など、ライフスタイルに合わせた柔軟な働き方で、あなたにぴったりのご縁を結びます。子ども・保育士・保育園の笑顔がつながる良い循環をえんまーるはサポートします。
               </Typography>
             </Grid>
             <Grid size={{xs: 12, md: 6}}>
-              {/* illustration — replace Box with <Image> once about-illustration.png is added to public/ */}
-              <Box
-                sx={{
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  bgcolor: '#E0E0E0',
-                  borderRadius: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography variant="caption" color="text.disabled">
-                  illustration
-                </Typography>
-              </Box>
+              <Image
+                src="/about-illustration.png"
+                alt="保育士・保育園・相互評価がつながる循環のイラスト"
+                width={600}
+                height={600}
+                style={{width: '100%', height: 'auto'}}
+              />
             </Grid>
           </Grid>
         </Container>
