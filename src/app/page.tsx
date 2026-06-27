@@ -270,7 +270,43 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* 2. two audiences */}
+      {/* 2. About */}
+      <Box sx={{bgcolor: '#FFFFFF', py: {xs: 5, md: 7}}}>
+        <Container maxWidth="md" sx={{px: {xs: 2, md: 3}}}>
+          <Typography
+            variant="h2"
+            sx={{
+              textAlign: 'center',
+              mb: 4,
+              fontSize: {xs: '1.25rem', md: '1.5rem'},
+            }}
+          >
+            えんまーるとは
+          </Typography>
+          <Grid container spacing={{xs: 3, md: 5}} sx={{alignItems: 'center'}}>
+            <Grid size={{xs: 12, md: 6}}>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{lineHeight: 2, textWrap: 'pretty'}}
+              >
+                えんまーるは、保育士と保育園をつなぐ保育専門のスポットマッチングサービスです。「また働きたいけど、いきなりフルタイムは不安」そんな声に応えて生まれました。午前のみ・単発・週1など、ライフスタイルに合わせた柔軟な働き方で、あなたにぴったりのご縁を結びます。子ども・保育士・保育園の笑顔がつながる良い循環をえんまーるはサポートします。
+              </Typography>
+            </Grid>
+            <Grid size={{xs: 12, md: 6}}>
+              <Image
+                src="/about-illustration.png"
+                alt="保育士・保育園・相互評価がつながる循環のイラスト"
+                width={600}
+                height={600}
+                style={{width: '100%', height: 'auto'}}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* 3. Two audiences */}
       <Box sx={{bgcolor: '#F9F9F9', py: {xs: 5, md: 7}}}>
         <Container maxWidth="md" sx={{px: {xs: 2, md: 3}}}>
           <Typography
@@ -364,7 +400,7 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* 3. Features */}
+      {/* 4. Features */}
       <Box sx={{bgcolor: '#FFFFFF', py: {xs: 5, md: 7}}}>
         <Container maxWidth="lg" sx={{px: {xs: 2, md: 3}}}>
           <Typography
@@ -402,7 +438,7 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* 4. How it works */}
+      {/* 5. How it works */}
       <Box sx={{bgcolor: '#F9F9F9', py: {xs: 5, md: 7}}}>
         <Container maxWidth="md" sx={{px: {xs: 2, md: 3}}}>
           <Typography
@@ -460,7 +496,7 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* 5. Trust */}
+      {/* 6. Trust */}
       <Box sx={{bgcolor: '#FFFFFF', py: {xs: 5, md: 7}}}>
         <Container maxWidth="md" sx={{px: {xs: 2, md: 3}, textAlign: 'center'}}>
           <Typography
@@ -501,7 +537,7 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* 6. CTA */}
+      {/* 7. CTA */}
       <Box sx={{bgcolor: '#F9F9F9', py: {xs: 5, md: 7}}}>
         <Container maxWidth="sm" sx={{px: {xs: 2, md: 3}, textAlign: 'center'}}>
           <Typography
