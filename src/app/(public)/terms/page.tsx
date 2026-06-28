@@ -28,11 +28,7 @@ export default function TermsPage() {
         >
           利用規約
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{mb: 3}}
-        >
+        <Typography variant="body2" color="text.secondary" sx={{mb: 3}}>
           ご登録の区分に応じた利用規約をご確認ください。
         </Typography>
 
