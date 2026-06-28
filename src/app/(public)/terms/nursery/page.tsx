@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: '利用規約（保育園）',
 };
 
+// Renders SessionHeader (reads the session), so it renders per-request.
 export const dynamic = 'force-dynamic';
 
 const SECTIONS = [
