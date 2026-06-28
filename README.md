@@ -17,13 +17,14 @@
 | ORM             | Prisma 7 (`prisma-client` generator + `@prisma/adapter-neon`) |
 | Database        | Neon (serverless PostgreSQL)                                  |
 | Storage         | Cloudflare R2 (S3-compatible, `@aws-sdk/client-s3`)           |
-| Auth            | Logto Cloud (`@logto/next`)                                   |
+| Auth            | Logto (self-hosted OSS, `@logto/next`)                        |
 | Lint / Format   | ESLint + Prettier                                             |
 | Unit test       | Vitest + Testing Library (jsdom)                              |
 | CI              | GitHub Actions (format / lint / typecheck / unit)             |
 
 There is no Docker: the app runs on the host locally (`pnpm dev`) and on Netlify's managed
-runtime in production. The database, storage, and auth are managed cloud services.
+runtime in production. The database and storage are managed cloud services; auth runs
+on a self-hosted Logto (OSS) instance (deployed separately from this repo).
 
 The directory layout and the rules for where new code lands are documented in
 [`docs/architecture.md`](docs/architecture.md) and [`docs/design.md`](docs/design.md).
@@ -32,8 +33,8 @@ The directory layout and the rules for where new code lands are documented in
 
 - Node.js 24 (see `.nvmrc`)
 - pnpm via corepack: `corepack enable`
-- Accounts for the managed services: **Neon** (a dev branch), **Cloudflare R2** (a dev
-  bucket), and **Logto Cloud** (a dev tenant/app)
+- Access to: **Neon** (a dev branch), **Cloudflare R2** (a dev bucket), and the dev
+  **Logto** instance (self-hosted) — its endpoint and app credentials
 
 ## Setup
 
