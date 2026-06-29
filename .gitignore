@@ -45,3 +45,6 @@ next-env.d.ts
 *.log
 
 /src/generated/prisma
+
+# screenshot script (local only — credentials are embedded)
+/scripts/screenshot.mjs
